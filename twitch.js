@@ -6,7 +6,6 @@
 
     function twitch() {
         var accessToken = null;
-        var streamerDict = JSON.parse(process.env.STREAMERS) || {};
 
         function authenticate() {
             var clientId = process.env.TWITCH_CLIENT_ID;
@@ -26,7 +25,6 @@
                         client_id: clientId,
                         client_secret: clientSecret,
                         grant_type: 'client_credentials',
-                        scope: '',
                     }
                 }).then(function (resp) {
                     console.log(resp.body);
@@ -36,23 +34,44 @@
         }
 
         return {
+            getUsers: function (user_logins) {
+                return authenticate()
+                    .then(function () {
+                        return request({
+                            url: 'https://api.twitch.tv/helix/users',
+                            method: 'GET',
+                            json: true,
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                            qs: {
+                                login: user_logins,
+                            }
+                        })
+                    })
+                    .then(function (resp) {
+                        console.log(resp.body.data);
+                        return resp.body.data;
+                    });
+            },
             getStreams: function (streamerIds) {
                 return authenticate()
                     .then(function () {
                         return request({
                             url: 'https://api.twitch.tv/helix/streams',
                             method: 'GET',
+                            json: true,
                             headers: {
-                                Authorization: 'Bearer ' + accessToken
+                                Authorization: 'Bearer ' + accessToken,
                             },
                             qs: {
-                                user_login: Object.keys(streamerDict)
+                                user_id: streamerIds,
                             }
                         });
                     })
                     .then(function (resp) {
-                        console.log(resp.body);
-                        return resp.body;
+                        console.log(resp.body.data);
+                        return resp.body.data;
                     });
             }
         };
