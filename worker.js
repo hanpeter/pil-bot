@@ -6,13 +6,17 @@
     var twitch = require('./twitch.js');
 
     function worker() {
-        var streamerDict = JSON.parse(process.env.STREAMERS) || {};
+        var streamerDict = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
 
         return {
             work: function () {
                 var streamerIds = {};
 
-                twitch.getUsers(Object.keys(streamerDict))
+                if (!streamerDict) {
+                    console.log('No streamers are configured. Exiting.');
+                    return;
+                }
+                return twitch.getUsers(Object.keys(streamerDict))
                     .then(function (users) {
                         return Promise.try(function () {
                             _.forEach(users, function (user) {
