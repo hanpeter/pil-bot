@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/hanpeter/discord-bot/issues"
   },
-  "homepage": "https://github.com/hanpeter/discord-bot#readme"
+  "homepage": "https://github.com/hanpeter/discord-bot#readme",
+  "engines": {
+    "node": ">=8.9.0 <9.0.0"
+  },
+  "dependencies": {
+    "bluebird": ">=3.5.0 <4.0.0",
+    "request": ">=2.83.0 <3.0.0"
+  }
 }
