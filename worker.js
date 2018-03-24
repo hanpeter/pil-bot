@@ -4,6 +4,7 @@
     var Promise = require('bluebird');
     var _ = require('lodash');
     var twitch = require('./twitch.js');
+    var rollbar = require('./rollbar.js');
 
     function worker() {
         var streamerDict = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
@@ -31,6 +32,11 @@
                         _.forEach(streams, function (stream) {
                             console.log([streamerIds[stream.user_id], 'is currently streaming:', stream.title].join(' '));
                         });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        rollbar.error(error);
+                        throw error;
                     });
             }
         };

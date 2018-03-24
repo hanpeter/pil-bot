@@ -3,9 +3,23 @@
 
     var Promise = require('bluebird');
     var request = Promise.promisify(require('request'));
+    var rollbar = require('./rollbar.js');
 
     function twitch() {
         var accessToken = null;
+
+        function handleError(resp) {
+            return Promise.try(function () {
+                console.log(resp.body);
+                if (resp.statusCode < 300 && resp.statusCode >= 200) {
+                    return resp;
+                } else {
+                    var err = new Error(resp.body.message);
+                    rollbar.errorRequest(err, resp.request);
+                    throw err;
+                }
+            });
+        }
 
         function authenticate() {
             var clientId = process.env.TWITCH_CLIENT_ID;
@@ -18,18 +32,19 @@
                 });
             } else {
                 return request({
-                    url: 'https://id.twitch.tv/oauth2/token',
-                    method: 'POST',
-                    json: true,
-                    qs: {
-                        client_id: clientId,
-                        client_secret: clientSecret,
-                        grant_type: 'client_credentials',
-                    }
-                }).then(function (resp) {
-                    console.log(resp.body);
-                    accessToken = resp.body.access_token;
-                });
+                        url: 'https://id.twitch.tv/oauth2/token',
+                        method: 'POST',
+                        json: true,
+                        qs: {
+                            client_id: clientId,
+                            client_secret: clientSecret,
+                            grant_type: 'client_credentials',
+                        }
+                    })
+                    .then(handleError)
+                    .then(function (resp) {
+                        accessToken = resp.body.access_token;
+                    });
             }
         }
 
@@ -49,6 +64,7 @@
                             }
                         })
                     })
+                    .then(handleError)
                     .then(function (resp) {
                         console.log(resp.body.data);
                         return resp.body.data;
@@ -69,6 +85,7 @@
                             }
                         });
                     })
+                    .then(handleError)
                     .then(function (resp) {
                         console.log(resp.body.data);
                         return resp.body.data;
