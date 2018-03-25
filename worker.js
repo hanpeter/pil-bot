@@ -5,6 +5,7 @@
     var _ = require('lodash');
     var twitch = require('./twitch.js');
     var rollbar = require('./rollbar.js');
+    var logger = require('./logger.js');
 
     function worker() {
         var streamerDict = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
@@ -14,7 +15,7 @@
                 var streamerIds = {};
 
                 if (!streamerDict) {
-                    console.log('No streamers are configured. Exiting.');
+                    logger.warn('No streamers are configured. Exiting.');
                     return;
                 }
                 return twitch.getUsers(Object.keys(streamerDict))
@@ -23,6 +24,7 @@
                             _.forEach(users, function (user) {
                                 streamerIds[user.id] = user.login;
                             });
+                            logger.info('Got mapping from user login to user ID:', streamerIds);
                         });
                     })
                     .then(function () {
@@ -30,7 +32,7 @@
                     })
                     .then(function (streams) {
                         _.forEach(streams, function (stream) {
-                            console.log([streamerIds[stream.user_id], 'is currently streaming:', stream.title].join(' '));
+                            logger.info(streamerIds[stream.user_id], 'is currently streaming:', stream.title);
                         });
                     })
                     .catch(function (error) {
@@ -40,6 +42,7 @@
                         //         at this time. Looking at the Rollbar's source code and based on a small
                         //         empirical test, looks like they have a logic to prevent duplicate logging.
                         rollbar.error(error);
+                        logger.error(error);
                         throw error;
                     });
             }
