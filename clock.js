@@ -4,6 +4,7 @@
     var CronJob = require('cron').CronJob;
     var worker = require('./worker.js');
     var rollbar = require('./rollbar.js');
+    var logger = require('./logger.js');
 
     try {
         var job = new CronJob({
@@ -15,6 +16,7 @@
         job.start();
     } catch (ex) {
         rollbar.error(ex);
+        logger.error(error);
         throw ex;
     }
 })();

@@ -4,18 +4,20 @@
     var Promise = require('bluebird');
     var request = Promise.promisify(require('request'));
     var rollbar = require('./rollbar.js');
+    var logger = require('./logger.js');
 
     function twitch() {
         var accessToken = null;
 
         function handleError(resp) {
             return Promise.try(function () {
-                console.log(resp.body);
+                logger.debug(resp.body);
                 if (resp.statusCode < 300 && resp.statusCode >= 200) {
                     return resp;
                 } else {
                     var err = new Error(resp.body.message);
                     rollbar.errorRequest(err, resp.request);
+                    logger.error('Received an error from Twitch:', resp.statusCode, resp.statusMessage, resp.body);
                     throw err;
                 }
             });
@@ -44,6 +46,7 @@
                     .then(handleError)
                     .then(function (resp) {
                         accessToken = resp.body.access_token;
+                        logger.info('Got an access token from Twitch:', accessToken);
                     });
             }
         }
@@ -66,7 +69,7 @@
                     })
                     .then(handleError)
                     .then(function (resp) {
-                        console.log(resp.body.data);
+                        logger.info('Received', resp.body.data.length, 'users from Twitch');
                         return resp.body.data;
                     });
             },
@@ -87,7 +90,7 @@
                     })
                     .then(handleError)
                     .then(function (resp) {
-                        console.log(resp.body.data);
+                        logger.info('Received', resp.body.data.length, 'streams from Twitch');
                         return resp.body.data;
                     });
             }
