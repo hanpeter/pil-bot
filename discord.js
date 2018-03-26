@@ -22,7 +22,7 @@
         }
 
         return {
-            notify: function (channelId, stream, streamer) {
+            notify: function (channelId, stream, streamer, game) {
                 return login()
                     .then(function () {
                         var channel = client.channels.get(channelId);
@@ -46,7 +46,7 @@
                                 },
                                 fields: [{
                                     name: 'Game',
-                                    value: 'Foo',
+                                    value: game.name,
                                     inline: true,
                                 }, {
                                     name: 'Viewers',
@@ -63,6 +63,11 @@
                             }
                         };
                         logger.debug(message);
+                        logger.info(
+                            'Created a notification for', streamer.login,
+                            'at Channel', channel.name,
+                            'in Guild', channel.guild.name
+                        );
                         channel.send(message);
                     });
             }

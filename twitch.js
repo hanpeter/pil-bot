@@ -93,6 +93,27 @@
                         logger.info('Received', resp.body.data.length, 'streams from Twitch');
                         return resp.body.data;
                     });
+            },
+            getGames: function (gameIds) {
+                return authenticate()
+                    .then(function () {
+                        return request({
+                            url: 'https://api.twitch.tv/helix/games',
+                            method: 'GET',
+                            json: true,
+                            headers: {
+                                Authorization: 'Bearer ' + accessToken,
+                            },
+                            qs: {
+                                id: gameIds,
+                            }
+                        })
+                    })
+                    .then(handleError)
+                    .then(function (resp) {
+                        logger.info('Received', resp.body.data.length, 'games from Twitch');
+                        return resp.body.data;
+                    })
             }
         };
     }
