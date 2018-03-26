@@ -14,6 +14,7 @@
         return {
             work: function () {
                 var streamers = {};
+                var streamGames = {};
 
                 if (!streamerChannel) {
                     logger.warn('No streamers are configured. Exiting.');
@@ -32,11 +33,28 @@
                         return twitch.getStreams(Object.keys(streamers));
                     })
                     .then(function (streams) {
-                        _.forEach(streams, function (stream) {
-                            var streamer = streamers[stream.user_id];
-                            var channelId = streamerChannel[streamer.login];
-                            discord.notify(channelId, stream, streamers[stream.user_id])
-                        });
+                        var gameIds = _.map(streams, function (stream) { return stream.game_id; });
+
+                        return twitch.getGames(gameIds)
+                            .then(function (games) {
+                                return Promise.try(function () {
+                                    _.forEach(games, function (game) {
+                                        streamGames[game.id] = game;
+                                    });
+                                    logger.info('Got mapping from game ID to game:', streamGames);
+                                });
+                            })
+                            .then(function () {
+                                var promises = [];
+                                _.forEach(streams, function (stream) {
+                                    var streamer = streamers[stream.user_id];
+                                    var channelId = streamerChannel[streamer.login];
+                                    var game = streamGames[stream.game_id];
+                                    promises.push(discord.notify(channelId, stream, streamer, game));
+                                });
+
+                                return Promise.all(promises);
+                            });
                     })
                     .catch(function (error) {
                         // GOTCHA: This means errors from API calls are potentially logged twice.
