@@ -6,33 +6,36 @@
     var twitch = require('./twitch.js');
     var rollbar = require('./rollbar.js');
     var logger = require('./logger.js');
+    var discord = require('./discord.js');
 
     function worker() {
-        var streamerDict = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
+        var streamerChannel = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
 
         return {
             work: function () {
-                var streamerIds = {};
+                var streamers = {};
 
-                if (!streamerDict) {
+                if (!streamerChannel) {
                     logger.warn('No streamers are configured. Exiting.');
                     return;
                 }
-                return twitch.getUsers(Object.keys(streamerDict))
+                return twitch.getUsers(Object.keys(streamerChannel))
                     .then(function (users) {
                         return Promise.try(function () {
                             _.forEach(users, function (user) {
-                                streamerIds[user.id] = user.login;
+                                streamers[user.id] = user;
                             });
-                            logger.info('Got mapping from user login to user ID:', streamerIds);
+                            logger.info('Got mapping from user ID to user:', streamers);
                         });
                     })
                     .then(function () {
-                        return twitch.getStreams(Object.keys(streamerIds));
+                        return twitch.getStreams(Object.keys(streamers));
                     })
                     .then(function (streams) {
                         _.forEach(streams, function (stream) {
-                            logger.info(streamerIds[stream.user_id], 'is currently streaming:', stream.title);
+                            var streamer = streamers[stream.user_id];
+                            var channelId = streamerChannel[streamer.login];
+                            discord.notify(channelId, stream, streamers[stream.user_id])
                         });
                     })
                     .catch(function (error) {
