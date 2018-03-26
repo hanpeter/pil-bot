@@ -14,7 +14,8 @@
                 logger.debug(resp.body);
                 if (resp.statusCode < 300 && resp.statusCode >= 200) {
                     return resp;
-                } else {
+                }
+                else {
                     var err = new Error(resp.body.message);
                     rollbar.errorRequest(err, resp.request);
                     logger.error('Received an error from Twitch:', resp.statusCode, resp.statusMessage, resp.body);
@@ -32,7 +33,8 @@
                 return Promise.try(function () {
                     return accessToken;
                 });
-            } else {
+            }
+            else {
                 return request({
                         url: 'https://id.twitch.tv/oauth2/token',
                         method: 'POST',
