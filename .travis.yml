@@ -1,1 +1,13 @@
 language: node_js
+braches:
+  only:
+  - master
+  - /^\d+\.\d+\.\d+$/  # Use sem var
+deploy:
+  provider: heroku
+  api_key:
+    secure: MTU+79+q7MHuZCFMYYARqqDhi6kb7RWt1tUksenfMLRo9PBmzntqASA0m/kSvBEjAb67H3kE7o2ReqQXVNvFdmfrKK6ZPTRQ6scNbsGHNut1Iv3V+HjoHMHXnzEbXaPCeySha3VKve8JURnnqvOn7Ibulsw2vsQzW2z9RYAE8c3O+CSsAfH8m/EaW+jSXzGR5pThOzU9Fz68qMgKtYBVK11QyFWMY+IzJ2Y65PipHBqTB6RrDJyjprd0xUhMx8AtiE8IZOUIjQG/uzA/vQPk+7PjZdbeZKE/3sDszpAPTUFm8/n8wa9tU0CfrLcW9hYbLEcr3OKhgs1kxmwXO8bnERqShVTqb3w/Pkkhr4EHaLLsYIbp+HTPfPGm1xumh0dbCFh6VIaQ8mG/sPW1tuxF9S90agy48G2T63Ejrx8oPrmDUyCQWPNekxyvFdZ9pEs44DUU0UmDRT/MazZl/DeL09L0oYlRTpKjX/OMyZCW3/w9goA9DgJlvJ79SF2CpdOKbpJRU+BiJbPQKw2U1S/wOYR/TO2gBW0hpAZl0Go9wd+kZRtk0RESIOnf3mISevIq104/bmfEMDB/XSstWhzoeo+LZNjY9uuH66nGB6RxZmqyKuH16Igh9nPzj+rlR53Qt1oSSArN5ipIfhivNYw4K7BiR0JwT/RxDv4vAeNT4jI=
+  app: phan-pil-bot
+  on:
+    tags: true
+    repo: hanpeter/pil-bot
