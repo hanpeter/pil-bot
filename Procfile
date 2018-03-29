@@ -1,2 +1,2 @@
-worker: node worker.js
-clock: node clock.js
+worker: node src/worker.js
+clock: node src/clock.js
