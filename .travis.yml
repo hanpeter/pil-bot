@@ -1,5 +1,5 @@
 language: node_js
-braches:
+branches:
   only:
   - master
   - /^\d+\.\d+\.\d+$/  # Use sem var
