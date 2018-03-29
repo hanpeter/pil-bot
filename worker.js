@@ -33,6 +33,11 @@
                         return twitch.getStreams(Object.keys(streamers));
                     })
                     .then(function (streams) {
+                        if (streams.length < 1) {
+                            logger.info('No live streams.');
+                            return;
+                        }
+
                         var gameIds = _.map(streams, function (stream) { return stream.game_id; });
 
                         return twitch.getGames(gameIds)
