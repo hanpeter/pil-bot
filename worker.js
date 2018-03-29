@@ -26,7 +26,8 @@
                             _.forEach(users, function (user) {
                                 streamers[user.id] = user;
                             });
-                            logger.info('Got mapping from user ID to user:', streamers);
+                            logger.info('Created mapping from user ID to user');
+                            logger.debug(streamers);
                         });
                     })
                     .then(function () {
@@ -46,7 +47,8 @@
                                     _.forEach(games, function (game) {
                                         streamGames[game.id] = game;
                                     });
-                                    logger.info('Got mapping from game ID to game:', streamGames);
+                                    logger.info('Created mapping from game ID to game');
+                                    logger.debug(streamGames);
                                 });
                             })
                             .then(function () {
