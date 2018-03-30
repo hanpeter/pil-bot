@@ -33,8 +33,8 @@ $ npm start
 |`TWITCH_CLIENT_ID`|ID of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
 |`TWITCH_CLIENT_SECRET`|Secret of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
 |`STREAMERS`|A JSON dictionary of Twitch ID to Discord channel ID. If you want to announce when "twitchplayspokemon" streams goes live to Discord channel ID "12345", put `{"twitchplayspokemon":"12345"}`. *Note: this is Discord channel ID, not its name.*|`{}` (Using this default means pil-bot does nothing)|
-|`ROLLBAR_ACCESS_TOKEN`|An access token for Rollbar error tracking.||
-|`ENVIRONMENT`|A string value to denote the environment this is running. Currently being used as Rollbar environment.||
+|`ROLLBAR_ACCESS_TOKEN`|An access token for Rollbar error tracking. If this is not set, errors are not logged in Rollbar.|No token|
+|`ENVIRONMENT`|A string value to denote the environment this is running. Currently being used as Rollbar environment.|`development`|
 |`LOG_LEVEL`|Minimum level of logs you want to see. Refer to [`loglevel`](https://github.com/pimterry/loglevel)'s documentation on what the levels are.|`info`|
 
 ## How do I contribute?
