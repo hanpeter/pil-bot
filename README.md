@@ -14,7 +14,7 @@ The information is updated every minute to provide your followers up to date inf
 
 ## How do I set it up?
 Check out the code and run it wherever you would like! A hosting solutions like Heroku is great for this (`Procfile` is ready for you).
-To run, you need to pass a few environment variables, then run `npm start`. 
+To run, you need to pass a few environment variables, then run `npm start`.
 
 ```shell
 $ export DISCORD_BOT_TOKEN='MyDiscordBot'
@@ -25,6 +25,15 @@ $ npm start
 > pil-bot@0.1.1 start /Users/phan/projects/pil-bot
 > node src/clock.js
 ```
+
+In Discord, you want to provide following permissions for your bot. At the end, you should use `224256` as your permission value.
+* Read Messages
+* Embed Links
+* Read Message History
+* Send Messages
+* Manage Messages
+* Mention @everyone
+* View Channel
 
 ### Environment Variables
 |Name|Description|Default|
