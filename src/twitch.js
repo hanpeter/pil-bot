@@ -16,10 +16,10 @@
                     return resp;
                 }
                 else {
-                    var errMsg = [resp.statusCode, resp.statusMessage, ':', resp.body.message].join(' ');
+                    var errMsg = [resp.statusCode, resp.statusMessage, ':', resp.body.message || resp.body].join(' ');
                     var err = new Error(errMsg);
                     rollbar.errorRequest(err, resp.request);
-                    logger.error('Received an error from Twitch:', resp.statusCode, resp.statusMessage, resp.body);
+                    logger.error('Received an error from Twitch:', errMsg);
                     throw err;
                 }
             });
