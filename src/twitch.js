@@ -16,7 +16,8 @@
                     return resp;
                 }
                 else {
-                    var err = new Error(resp.body.message);
+                    var errMsg = [resp.statusCode, resp.statusMessage, ':', resp.body.message].join(' ');
+                    var err = new Error(errMsg);
                     rollbar.errorRequest(err, resp.request);
                     logger.error('Received an error from Twitch:', resp.statusCode, resp.statusMessage, resp.body);
                     throw err;
