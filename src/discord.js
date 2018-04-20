@@ -105,7 +105,7 @@
                             streamImage += '?timestamp=' + (new Date().getTime());
                         }
 
-                        var message = {
+                        var embed = {
                             embed: {
                                 // XXX: config.color is a Hex number as a string.
                                 color: parseInt(config.color) || 0xFF0000,
@@ -133,16 +133,28 @@
                                 }
                             }
                         };
-                        logger.debug(message);
+                        logger.debug(embed);
 
                         return getMessage(channel, client.user, streamId, streamStartDateTime)
                             .then(function (existingMessage) {
                                 var result = null;
+                                var content = ['@everyone,', streamer.display_name, 'is boardcasting'].join(' ');
+
                                 if (existingMessage) {
                                     if (config.shouldUpdateMessage !== false) {
                                         // Continue to update the message with the latest info to provide
                                         // the latest information to the Discord users.
-                                        result = existingMessage.edit(message);
+                                        if (config.shouldUseEveryone === true) {
+                                            result = existingMessage.edit(content, embed);
+                                            logger.info(
+                                                'Added @everyone prefix for',
+                                                streamer.display_name, '(' + streamer.login + ')',
+                                            )
+                                        }
+                                        else {
+                                            result = existingMessage.edit(embed);
+                                        }
+
                                         logger.info(
                                             'Updated the existing notification for',
                                             streamer.display_name, '(' + streamer.login + ')',
@@ -163,7 +175,16 @@
                                     }
                                 }
                                 else {
-                                    result = channel.send(message);
+                                    if (config.shouldUseEveryone === true) {
+                                        result = channel.send(content, embed);
+                                        logger.info(
+                                            'Added @everyone prefix for',
+                                            streamer.display_name, '(' + streamer.login + ')',
+                                        )
+                                    }
+                                    else {
+                                        result = channel.send(embed);
+                                    }
                                     logger.info(
                                         'Created a notification for',
                                         streamer.display_name, '(' + streamer.login + ')',
