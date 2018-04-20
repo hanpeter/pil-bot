@@ -78,23 +78,33 @@
         }
 
         return {
-            notify: function (channelId, stream, streamer, game) {
+            notify: function (config, stream, streamer, game) {
                 return login()
                     .then(function () {
                         return Promise.try(function () {
-                            var channel = client.channels.get(channelId);
+                            var channel = client.channels.get(config.channelId);
 
                             if (channel) {
                                 return channel;
                             }
                             else {
-                                throw Error('Invalid channel ID: ' + channelId);
+                                throw Error('Invalid channel ID: ' + config.channelId);
                             }
                         });
                     })
                     .then(function (channel) {
                         var streamId = stream.id || -1;
                         var streamStartDateTime = stream.started_at ? new Date(stream.started_at) : new Date(0);
+                        var streamImage = stream.thumbnail_url
+                            ? stream.thumbnail_url.replace('{width}', 480).replace('{height}', 270) : null;
+
+                        if (streamImage && config.shouldUpdateImage !== false) {
+                            // If the image exists and this streamer is configured to update the image,
+                            // add a query string to bust the cache.
+                            // XXX: shouldUpdateImage defaults to true
+                            streamImage += '?timestamp=' + (new Date().getTime());
+                        }
+
                         var message = {
                             embed: {
                                 color: 0xFF0000,
@@ -114,10 +124,7 @@
                                     inline: true,
                                 }],
                                 image: {
-                                    url: stream.thumbnail_url
-                                        ? (stream.thumbnail_url.replace('{width}', 480).replace('{height}', 270)
-                                            + '?timestamp=' + (new Date().getTime()))
-                                        : null,
+                                    url: streamImage,
                                 },
                                 timestamp: streamStartDateTime,
                                 footer: {
@@ -131,13 +138,28 @@
                             .then(function (existingMessage) {
                                 var result = null;
                                 if (existingMessage) {
-                                    result = existingMessage.edit(message);
-                                    logger.info(
-                                        'Updated the existing notification for',
-                                        streamer.display_name, '(' + streamer.login + ')',
-                                        'at Channel', channel.name,
-                                        'in Guild', channel.guild.name
-                                    )
+                                    if (config.shouldUpdateMessage !== false) {
+                                        // Continue to update the message with the latest info to provide
+                                        // the latest information to the Discord users.
+                                        result = existingMessage.edit(message);
+                                        logger.info(
+                                            'Updated the existing notification for',
+                                            streamer.display_name, '(' + streamer.login + ')',
+                                            'at Channel', channel.name,
+                                            'in Guild', channel.guild.name,
+                                        )
+                                    }
+                                    else {
+                                        // If the message exists and the streamer is configured not to update
+                                        // the message, log it and move on.
+                                        // XXX: shouldUpdateMessage defaults to true
+                                        logger.info(
+                                            streamer.display_name, '(' + streamer.login + ')',
+                                            'is set to not update the message. Leaving the existing message',
+                                            'at Channel', channel.name,
+                                            'in Guild', channel.guild.name,
+                                        )
+                                    }
                                 }
                                 else {
                                     result = channel.send(message);

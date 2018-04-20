@@ -9,18 +9,18 @@
     var discord = require('./discord.js');
 
     function worker() {
-        var streamerChannel = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
+        var streamerConfig = process.env.STREAMERS ? JSON.parse(process.env.STREAMERS) : false;
 
         return {
             work: function () {
                 var streamers = {};
                 var streamGames = {};
 
-                if (!streamerChannel) {
+                if (!streamerConfig) {
                     logger.warn('No streamers are configured. Exiting.');
                     return;
                 }
-                return twitch.getUsers(Object.keys(streamerChannel))
+                return twitch.getUsers(Object.keys(streamerConfig))
                     .then(function (users) {
                         return Promise.try(function () {
                             _.forEach(users, function (user) {
@@ -55,9 +55,9 @@
                                 var promises = [];
                                 _.forEach(streams, function (stream) {
                                     var streamer = streamers[stream.user_id] || {};
-                                    var channelId = streamerChannel[streamer.login] || -1;
+                                    var config = streamerConfig[streamer.login] || {};
                                     var game = streamGames[stream.game_id] || {};
-                                    promises.push(discord.notify(channelId, stream, streamer, game));
+                                    promises.push(discord.notify(config, stream, streamer, game));
                                 });
 
                                 return Promise.all(promises);
