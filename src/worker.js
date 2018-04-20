@@ -54,9 +54,9 @@
                             .then(function () {
                                 var promises = [];
                                 _.forEach(streams, function (stream) {
-                                    var streamer = streamers[stream.user_id];
-                                    var channelId = streamerChannel[streamer.login];
-                                    var game = streamGames[stream.game_id];
+                                    var streamer = streamers[stream.user_id] || {};
+                                    var channelId = streamerChannel[streamer.login] || -1;
+                                    var game = streamGames[stream.game_id] || {};
                                     promises.push(discord.notify(channelId, stream, streamer, game));
                                 });
 
