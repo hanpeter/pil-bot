@@ -1,6 +1,6 @@
 {
   "name": "pil-bot",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "A simple bot for Discord that announces your Twitch stream",
   "scripts": {
     "test": "echo 'No test specified'",
