@@ -107,7 +107,8 @@
 
                         var message = {
                             embed: {
-                                color: 0xFF0000,
+                                // XXX: config.color is a Hex number as a string.
+                                color: parseInt(config.color) || 0xFF0000,
                                 title: stream.title,
                                 url: streamer.login ? 'https://twitch.tv/' + streamer.login : null,
                                 author: {
