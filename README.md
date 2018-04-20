@@ -41,10 +41,37 @@ In Discord, you want to provide following permissions for your bot. At the end, 
 |`DISCORD_BOT_TOKEN`|Secret token you get from Discord by creating a bot application. [`discord.js`](https://discord.js.org/) has an awesome [guide](https://discordjs.guide/#/preparations/setting-up-a-bot-application) on how to do this.|This variable is required.|
 |`TWITCH_CLIENT_ID`|ID of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
 |`TWITCH_CLIENT_SECRET`|Secret of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
-|`STREAMERS`|A JSON dictionary of Twitch ID to Discord channel ID. If you want to announce when "twitchplayspokemon" streams goes live to Discord channel ID "12345", put `{"twitchplayspokemon":"12345"}`. *Note: this is Discord channel ID, not its name.*|`{}` (Using this default means pil-bot does nothing)|
+|`STREAMERS`|Refer to the [section below](#streamer-config).|`{}` (Using this default means pil-bot does nothing)|
 |`ROLLBAR_ACCESS_TOKEN`|An access token for Rollbar error tracking. If this is not set, errors are not logged in Rollbar.|No token|
 |`ENVIRONMENT`|A string value to denote the environment this is running. Currently being used as Rollbar environment.|`development`|
 |`LOG_LEVEL`|Minimum level of logs you want to see. Refer to [`loglevel`](https://github.com/pimterry/loglevel)'s documentation on what the levels are.|`info`|
+
+#### Streamer Config
+`STREAMERS` should be a JSON dictionary of Twitch ID to a dictionary of various configuration for that streamer.
+
+|Key|Description|Default|
+|---|-----------|-------|
+|`channelId`|ID of the Discord channel to post when this streamer starts his broadcast. *Note: this is Discord channel ID, not its name.*|This value is required.|
+|`color`|The colour to be added to the side of the embed message. Set the hex RGB value as a string, such as `"0xFF0000"`.|`0xFF0000` (Red)|
+|`shouldUpdateMessage`|Whether the message should be updated every minute to provide the latest data to the discord users.|`true`|
+|`shouldUpdateImage`|Whether the screenshot of the broadcast should be updated every minute to provide the latest data to the discord users. However, this means that some users will get a broken image for the image if they see the image too late.|`true`|
+|`shouldUseEveryone`|Whether to prefix the message with `@everyone` tag. This will send every user of your discord Guild a notification.|`false`|
+
+<details>
+    <summary>Sample Configuration</summary>
+
+```json
+{
+    "twitchplayspokemon": {
+        "channelId": "12345",
+        "color": "0x1A1AFF",
+        "shouldUpdateMessage": true,
+        "shouldUpdateImage": false,
+        "shouldUseEveryone": false
+    }
+}
+```
+</details>
 
 ## How do I contribute?
 We welcome your contribution! Check out [`CONTRIBUTING.md`](.github/CONTRIBUTING.md).
