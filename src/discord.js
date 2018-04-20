@@ -92,37 +92,41 @@
                         });
                     })
                     .then(function (channel) {
+                        var streamId = stream.id || -1;
+                        var streamStartDateTime = stream.started_at ? new Date(stream.started_at) : new Date(0);
                         var message = {
                             embed: {
                                 color: 0xFF0000,
                                 title: stream.title,
-                                url: 'https://twitch.tv/' + streamer.login,
+                                url: streamer.login ? 'https://twitch.tv/' + streamer.login : null,
                                 author: {
                                     name: streamer.display_name,
                                     icon_url: streamer.profile_image_url,
                                 },
                                 fields: [{
                                     name: 'Game',
-                                    value: game.name,
+                                    value: game.name || 'N/A',
                                     inline: true,
                                 }, {
                                     name: 'Viewers',
-                                    value: stream.viewer_count,
+                                    value: stream.viewer_count || -1,
                                     inline: true,
                                 }],
                                 image: {
-                                    url: (stream.thumbnail_url.replace('{width}', 480).replace('{height}', 270))
-                                        + '?timestamp=' + (new Date().getTime()),
+                                    url: stream.thumbnail_url
+                                        ? (stream.thumbnail_url.replace('{width}', 480).replace('{height}', 270)
+                                            + '?timestamp=' + (new Date().getTime()))
+                                        : null,
                                 },
-                                timestamp: new Date(stream.started_at),
+                                timestamp: streamStartDateTime,
                                 footer: {
-                                    text: stream.id,
+                                    text: streamId,
                                 }
                             }
                         };
                         logger.debug(message);
 
-                        return getMessage(channel, message, client.user, stream.id, new Date(stream.started_at))
+                        return getMessage(channel, message, client.user, streamId, streamStartDateTime)
                             .then(function (existingMessage) {
                                 var result = null;
                                 if (existingMessage) {
