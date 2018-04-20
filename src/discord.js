@@ -24,7 +24,7 @@
             }
         }
 
-        function getMessage(channel, content, user, uniqueId, timestamp, beforeMessage) {
+        function getMessage(channel, user, uniqueId, timestamp, beforeMessage) {
             return channel.fetchMessages({ before: beforeMessage, limit: FETCH_MESSAGE_LIMIT })
                 .then(function (messages) {
                     var existing = null;
@@ -72,7 +72,7 @@
                             'Searching for it in the next batch'
                         );
                         var lastMessage = _.head(_.sortBy(keys));
-                        return getMessage(channel, content, user, uniqueId, timestamp, lastMessage);
+                        return getMessage(channel, user, uniqueId, timestamp, lastMessage);
                     }
                 });
         }
@@ -135,7 +135,7 @@
                         };
                         logger.debug(message);
 
-                        return getMessage(channel, message, client.user, streamId, streamStartDateTime)
+                        return getMessage(channel, client.user, streamId, streamStartDateTime)
                             .then(function (existingMessage) {
                                 var result = null;
                                 if (existingMessage) {
