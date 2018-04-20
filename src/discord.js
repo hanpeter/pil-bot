@@ -6,6 +6,8 @@
     var _ = require('lodash');
     var logger = require('./logger.js');
 
+    var FETCH_MESSAGE_LIMIT = 3;
+
     function discord() {
         var client = new Discord.Client();
         var discordToken = process.env.DISCORD_BOT_TOKEN;
@@ -23,13 +25,13 @@
         }
 
         function getMessage(channel, content, user, uniqueId, timestamp, beforeMessage) {
-            return channel.fetchMessages({ before: beforeMessage, limit: 3 })
+            return channel.fetchMessages({ before: beforeMessage, limit: FETCH_MESSAGE_LIMIT })
                 .then(function (messages) {
                     var existing = null;
                     var isGonePast = false;
 
                     messages.forEach(function (message) {
-                        if (existing) {
+                        if (existing || isGonePast) {
                             // I was hoping to short circuit this loop using `return false` below.
                             // However, this forEach loop does not seem to support it. So, building
                             // my own short circuit logic.
@@ -50,18 +52,17 @@
                         }
                         else if (message.createdTimestamp < timestamp.getTime()) {
                             isGonePast = true;
-                            existing = true;  // Setting `existing` to `true` to trigger short circuit
                             return false;
                         }
                     });
 
-                    if (isGonePast) {
-                        logger.info('Unable to find an existing message for Stream:', uniqueId);
-                        return null;
-                    }
-                    else if (existing) {
+                    if (existing) {
                         logger.info('Able to find an existing message for Stream:', uniqueId);
                         return existing;
+                    }
+                    else if (isGonePast || (messages.size < FETCH_MESSAGE_LIMIT)) {
+                        logger.info('Unable to find an existing message for Stream:', uniqueId);
+                        return null;
                     }
                     else {
                         var keys = Array.from(messages.keys());
