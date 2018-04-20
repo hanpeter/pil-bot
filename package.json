@@ -1,21 +1,21 @@
 {
   "name": "pil-bot",
   "version": "0.1.3",
-  "description": "A discord bot for personal usage",
+  "description": "A simple bot for Discord that announces your Twitch stream",
   "scripts": {
     "test": "echo 'No test specified'",
     "start": "node src/clock.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hanpeter/discord-bot.git"
+    "url": "git+https://github.com/hanpeter/pil-bot.git"
   },
   "author": "Peter Han",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hanpeter/discord-bot/issues"
+    "url": "https://github.com/hanpeter/pil-bot/issues"
   },
-  "homepage": "https://github.com/hanpeter/discord-bot#readme",
+  "homepage": "https://github.com/hanpeter/pil-bot#readme",
   "engines": {
     "node": ">=8.9.0 <9.0.0"
   },
