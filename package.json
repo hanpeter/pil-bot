@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple bot for Discord that announces your Twitch stream",
   "scripts": {
-    "test": "echo 'No test specified'",
+    "test": "mocha",
     "start": "node src/clock.js"
   },
   "repository": {
