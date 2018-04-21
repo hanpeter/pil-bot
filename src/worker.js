@@ -18,7 +18,7 @@
 
                 if (!streamerConfig) {
                     logger.warn('No streamers are configured. Exiting.');
-                    return;
+                    return Promise.resolve();
                 }
                 return twitch.getUsers(Object.keys(streamerConfig))
                     .then(function (users) {
@@ -36,10 +36,12 @@
                     .then(function (streams) {
                         if (streams.length < 1) {
                             logger.info('No live streams.');
-                            return;
+                            return Promise.resolve();
                         }
 
-                        var gameIds = _.map(streams, function (stream) { return stream.game_id; });
+                        var gameIds = _.map(streams, function (stream) {
+                            return stream.game_id;
+                        });
 
                         return twitch.getGames(gameIds)
                             .then(function (games) {
@@ -73,7 +75,7 @@
                         logger.error(error);
                         throw error;
                     });
-            }
+            },
         };
     }
 

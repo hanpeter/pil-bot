@@ -1,0 +1,73 @@
+env:
+  node: true
+extends: 'eslint:recommended'
+rules:
+  indent:
+    - error
+    - 4
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+    - avoidEscape: true
+  semi:
+    - error
+    - always
+  no-prototype-builtins: error
+  block-scoped-var: error
+  consistent-return: error
+  curly:
+    - error
+    - all
+  eqeqeq:
+    - error
+    - always
+  no-alert: error
+  no-caller: error
+  no-empty-function: error
+  no-extend-native: error
+  no-floating-decimal: error
+  no-implicit-globals: error
+  no-implied-eval: error
+  no-lone-blocks: error
+  no-return-assign: error
+  no-throw-literal: error
+  no-unused-expressions: error
+  wrap-iife:
+    - error
+    - inside
+  yoda: error
+  no-catch-shadow: error
+  no-shadow: error
+  no-shadow-restricted-names: error
+  no-undefined: error
+  no-use-before-define: error
+  camelcase: error
+  comma-dangle:
+    - error
+    - always-multiline
+  comma-spacing: error
+  eol-last:
+    - error
+    - always
+  function-paren-newline:
+    - error
+    - consistent
+  key-spacing: error
+  max-len:
+    - error
+    - 120
+  max-statements-per-line:
+    - error
+    - max: 1
+  no-lonely-if: error
+  no-multi-assign: error
+  no-tabs: error
+  no-trailing-spaces: error
+  object-property-newline: error
+  one-var:
+    - error
+    - never
+

@@ -11,12 +11,12 @@
             cronTime: '* * * * *',  // Run every minute
             // TODO: Update this to queue the job rather than running it itself
             onTick: worker.work,
-            timeZone: 'Etc/UTC'
+            timeZone: 'Etc/UTC',
         });
         job.start();
     } catch (ex) {
         rollbar.error(ex);
-        logger.error(error);
+        logger.error(ex);
         throw ex;
     }
 })();

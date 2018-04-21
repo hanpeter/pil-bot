@@ -5,22 +5,22 @@
     var logger = require('./logger.js');
 
     function rollbar() {
-        var rollbar = undefined;
+        var rbClient;
 
         if (process.env.ROLLBAR_ACCESS_TOKEN){
-            rollbar = new Rollbar({
+            rbClient = new Rollbar({
                 accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
                 environment: process.env.ENVIRONMENT || 'development',
-            })
+            });
         }
         else {
             logger.warn('ROLLBAR_ACCESS_TOKEN environment variable is not set. Not logging anything to Rollbar.');
-            rollbar = null;
+            rbClient = null;
         }
 
         return {
             errorRequest: function (error, request) {
-                if (!rollbar) {
+                if (!rbClient) {
                     return;
                 }
 
@@ -32,16 +32,16 @@
                     method: request.method,
                     body: request.body,
                 };
-                rollbar.error(error, req);
+                rbClient.error(error, req);
             },
             error: function (error) {
-                if (!rollbar) {
+                if (!rbClient) {
                     return;
                 }
 
-                rollbar.error(error);
-            }
-        }
+                rbClient.error(error);
+            },
+        };
     }
 
     module.exports = rollbar();
