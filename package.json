@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple bot for Discord that announces your Twitch stream",
   "scripts": {
-    "test": "mocha",
+    "test": "eslint src test *.js && mocha",
     "start": "node src/clock.js"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "discord.js": ">=11.3.0 <12.0.0"
   },
   "devDependencies": {
+    "eslint": ">=4.19.0 <5.0.0",
     "mocha": ">=5.1.0 <6.0.0",
     "sinon": ">=4.5.0 < 6.0.0"
   }
