@@ -40,25 +40,25 @@
             }
             else {
                 return request({
-                        url: 'https://id.twitch.tv/oauth2/token',
-                        method: 'POST',
-                        json: true,
-                        qs: {
-                            client_id: clientId,
-                            client_secret: clientSecret,
-                            grant_type: 'client_credentials',
-                        }
-                    })
-                    .then(handleError)
-                    .then(function (resp) {
-                        accessToken = resp.body.access_token;
-                        logger.info('Got an access token from Twitch:', accessToken);
-                    });
+                    url: 'https://id.twitch.tv/oauth2/token',
+                    method: 'POST',
+                    json: true,
+                    /* eslint-disable camelcase */
+                    qs: {
+                        client_id: clientId,
+                        client_secret: clientSecret,
+                        grant_type: 'client_credentials',
+                    },
+                    /* eslint-enable */
+                }).then(handleError).then(function (resp) {
+                    accessToken = resp.body.access_token;
+                    logger.info('Got an access token from Twitch:', accessToken);
+                });
             }
         }
 
         return {
-            getUsers: function (user_logins) {
+            getUsers: function (login) {
                 return authenticate()
                     .then(function () {
                         return request({
@@ -69,9 +69,9 @@
                                 Authorization: 'Bearer ' + accessToken,
                             },
                             qs: {
-                                login: user_logins,
-                            }
-                        })
+                                login: login,
+                            },
+                        });
                     })
                     .then(handleError)
                     .then(function (resp) {
@@ -89,9 +89,11 @@
                             headers: {
                                 Authorization: 'Bearer ' + accessToken,
                             },
+                            /* eslint-disable camelcase */
                             qs: {
                                 user_id: streamerIds,
-                            }
+                            },
+                            /* eslint-enable */
                         });
                     })
                     .then(handleError)
@@ -112,15 +114,15 @@
                             },
                             qs: {
                                 id: gameIds,
-                            }
-                        })
+                            },
+                        });
                     })
                     .then(handleError)
                     .then(function (resp) {
                         logger.info('Received', resp.body.data.length, 'games from Twitch');
                         return resp.body.data;
-                    })
-            }
+                    });
+            },
         };
     }
 
