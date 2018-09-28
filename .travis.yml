@@ -3,6 +3,7 @@ branches:
   only:
   - master
   - /^\d+\.\d+\.\d+$/  # Use sem var
+# GOTCHA: Letting Travis handle `install` and `script` with default values
 deploy:
   provider: heroku
   api_key:
