@@ -23,17 +23,17 @@
     "node": ">=8.9.0 <9.0.0"
   },
   "dependencies": {
-    "bluebird": "^3.5.2",
-    "cron": "^1.4.1",
-    "discord.js": "^11.4.2",
-    "lodash": "^4.17.11",
-    "loglevel": "^1.6.0",
+    "bluebird": "^3.5.5",
+    "cron": "^1.7.1",
+    "discord.js": "^11.5.1",
+    "lodash": "^4.17.15",
+    "loglevel": "^1.6.3",
     "request": "^2.88.0",
-    "rollbar": "^2.4.7"
+    "rollbar": "^2.12.2"
   },
   "devDependencies": {
-    "eslint": "^5.14.1",
-    "mocha": "^6.0.2",
-    "sinon": "^7.2.5"
+    "eslint": "^5.16.0",
+    "mocha": "^6.2.0",
+    "sinon": "^7.4.1"
   }
 }
