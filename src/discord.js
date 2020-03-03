@@ -26,7 +26,7 @@
         }
 
         function getMessage(channel, user, uniqueId, timestamp, beforeMessage) {
-            return channel.fetchMessages({
+            return channel.messages.fetch({
                 before: beforeMessage,
                 limit: FETCH_MESSAGE_LIMIT,
             }).then(function (messages) {
@@ -87,7 +87,7 @@
                 return login()
                     .then(function () {
                         return Promise.try(function () {
-                            var channel = client.channels.get(config.channelId);
+                            var channel = client.channels.fetch(config.channelId);
 
                             if (channel) {
                                 return channel;
