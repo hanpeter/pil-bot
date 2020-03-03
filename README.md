@@ -9,7 +9,7 @@
 A simple bot for Discord that announces your Twitch stream
 
 ## What does it do?
-When you turn your Twitch stream, pil-bot will notify in your discord channel with a link to your stream, the game you are playing, and the current number of viewers.
+When you turn your Twitch stream, `pil-bot` will notify in your discord channel with a link to your stream, the game you are playing, and the current number of viewers.
 The information is updated every minute to provide your followers up to date information on your stream.
 
 ## How do I set it up?
@@ -41,7 +41,7 @@ In Discord, you want to provide following permissions for your bot. At the end, 
 |`DISCORD_BOT_TOKEN`|Secret token you get from Discord by creating a bot application. [`discord.js`](https://discord.js.org/) has an awesome [guide](https://discordjs.guide/#/preparations/setting-up-a-bot-application) on how to do this.|This variable is required.|
 |`TWITCH_CLIENT_ID`|ID of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
 |`TWITCH_CLIENT_SECRET`|Secret of your Twitch application. It is used to get your stream info. Follow Twitch's own [guide](https://dev.twitch.tv/docs/authentication/#registration) on how to get this.|This variable is required.|
-|`STREAMERS`|Refer to the [section below](#streamer-config).|`{}` (Using this default means pil-bot does nothing)|
+|`STREAMERS`|Refer to the [section below](#streamer-config).|`{}` (Using this default means `pil-bot` does nothing)|
 |`ROLLBAR_ACCESS_TOKEN`|An access token for Rollbar error tracking. If this is not set, errors are not logged in Rollbar.|No token|
 |`ENVIRONMENT`|A string value to denote the environment this is running. Currently being used as Rollbar environment.|`development`|
 |`LOG_LEVEL`|Minimum level of logs you want to see. Refer to [`loglevel`](https://github.com/pimterry/loglevel)'s documentation on what the levels are.|`info`|
