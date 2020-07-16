@@ -26,7 +26,7 @@
     "bluebird": "^3.5.5",
     "cron": "^1.7.1",
     "discord.js": "^12.0.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "loglevel": "^1.6.3",
     "request": "^2.88.0",
     "rollbar": "^2.12.2"
