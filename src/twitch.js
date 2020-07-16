@@ -8,6 +8,7 @@
 
     function twitch() {
         var accessToken = null;
+        var clientId = process.env.TWITCH_CLIENT_ID;
 
         function handleError(resp) {
             return Promise.try(function () {
@@ -29,7 +30,6 @@
         }
 
         function authenticate() {
-            var clientId = process.env.TWITCH_CLIENT_ID;
             var clientSecret = process.env.TWITCH_CLIENT_SECRET;
 
             // TODO: Handle accessToken expiration. Make sure the expiration can happen at any time.
@@ -67,6 +67,7 @@
                             json: true,
                             headers: {
                                 Authorization: 'Bearer ' + accessToken,
+                                'Client-ID': clientId,
                             },
                             qs: {
                                 login: login,
@@ -88,6 +89,7 @@
                             json: true,
                             headers: {
                                 Authorization: 'Bearer ' + accessToken,
+                                'Client-ID': clientId,
                             },
                             /* eslint-disable camelcase */
                             qs: {
@@ -111,6 +113,7 @@
                             json: true,
                             headers: {
                                 Authorization: 'Bearer ' + accessToken,
+                                'Client-ID': clientId,
                             },
                             qs: {
                                 id: gameIds,
