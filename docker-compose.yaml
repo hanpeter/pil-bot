@@ -1,0 +1,18 @@
+---
+version: "3"
+
+services:
+  dev:
+    image: node:erbium
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      TWITCH_CLIENT_ID: ${TWITCH_CLIENT_ID}
+      TWITCH_CLIENT_SECRET: ${TWITCH_CLIENT_SECRET}
+      STREAMERS: ${STREAMERS}
+      ROLLBAR_ACCESS_TOKEN: ${ROLLBAR_ACCESS_TOKEN}
+      ENVIRONMENT: development
+      LOG_LEVEL: debug
+    volumes:
+      - ${PWD}:/pil-bot
+    working_dir: /pil-bot
+    command: sh -c "npm install --production --no-bin-links && npm start"
