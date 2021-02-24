@@ -1,6 +1,6 @@
 {
   "name": "pil-bot",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A simple bot for Discord that announces your Twitch stream",
   "scripts": {
     "test": "npm run lint && npm run test:unit",
@@ -23,17 +23,17 @@
     "node": "^12.16.1"
   },
   "dependencies": {
-    "bluebird": "^3.5.5",
-    "cron": "^1.7.1",
-    "discord.js": "^12.0.1",
-    "lodash": "^4.17.15",
-    "loglevel": "^1.6.3",
-    "request": "^2.88.0",
-    "rollbar": "^2.12.2"
+    "bluebird": "^3.7.2",
+    "cron": "^1.8.2",
+    "discord.js": "^12.5.1",
+    "lodash": "^4.17.21",
+    "loglevel": "^1.7.1",
+    "request": "^2.88.2",
+    "rollbar": "^2.21.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
+    "eslint": "^7.20.0",
     "mocha": "^7.1.0",
-    "sinon": "^9.0.0"
+    "sinon": "^9.2.4"
   }
 }
