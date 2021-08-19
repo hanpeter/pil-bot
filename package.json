@@ -25,15 +25,15 @@
   "dependencies": {
     "bluebird": "^3.7.2",
     "cron": "^1.8.2",
-    "discord.js": "^12.5.1",
+    "discord.js": "^12.5.3",
     "lodash": "^4.17.21",
     "loglevel": "^1.7.1",
     "request": "^2.88.2",
-    "rollbar": "^2.21.0"
+    "rollbar": "^2.24.0"
   },
   "devDependencies": {
-    "eslint": "^7.24.0",
-    "mocha": "^8.3.2",
-    "sinon": "^10.0.1"
+    "eslint": "^7.32.0",
+    "mocha": "^9.0.3",
+    "sinon": "^11.1.2"
   }
 }
