@@ -11,4 +11,4 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
-CMD [ "node", "src/clock.js" ]
+ENTRYPOINT [ "node", "src/clock.js" ]
