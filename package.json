@@ -27,7 +27,7 @@
     "cron": "^1.8.2",
     "discord.js": "^12.5.3",
     "lodash": "^4.17.21",
-    "loglevel": "^1.7.1",
+    "loglevel": "^1.8.0",
     "request": "^2.88.2",
     "rollbar": "^2.24.0"
   },
