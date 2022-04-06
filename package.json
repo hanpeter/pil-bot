@@ -29,7 +29,7 @@
     "lodash": "^4.17.21",
     "loglevel": "^1.7.1",
     "request": "^2.88.2",
-    "rollbar": "^2.24.0"
+    "rollbar": "^2.24.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
